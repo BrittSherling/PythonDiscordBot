@@ -24,7 +24,7 @@ async def lenny():
 async def search(query):
     encoded = ul.parse.quote(query)
     rawData = ul.request.urlopen("https://duckduckgo-duckduckgo-zero-click-info.p.mashape.com/?callback=process_duckduckgo&format=json&no_html=1&no_redirect=1&q={}&skip_disambig=1".format(encoded),
-    secrets.headers).read()
+    headers = secrets.headers).read()
     jsonData = json.loads(rawData)
     searchResults = jsonData["Results"]
     print(searchResults)
