@@ -4,7 +4,6 @@ from discord.ext.commands import Bot
 import urllib as ul
 import json
 import secrets
-import DuckDuckGo
 
 pybot = Bot(command_prefix = "!")
 client = discord.Client
