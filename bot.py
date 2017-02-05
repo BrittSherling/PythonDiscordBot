@@ -9,7 +9,7 @@ pybot = Bot(command_prefix = "!")
 client = discord.Client
 
 @pybot.command()
-async def hello(*args):
+async def hello():
     return await pybot.say("Hello, world!")
 
 @pybot.command()
