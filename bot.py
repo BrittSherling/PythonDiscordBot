@@ -3,7 +3,9 @@ from discord import User
 from discord.ext.commands import Bot
 import secrets
 import requests
+import logging
 
+logging.basicConfig(level=logging.INFO)
 pybot = Bot(command_prefix = "!")
 client = discord.Client
 
@@ -20,12 +22,9 @@ async def lenny():
     return await pybot.say('( ͡° ͜ʖ ͡°)')
 
 @pybot.command()
-async def search(query):
-
-    respon = requests.get('http://api.duckduckgo.com/?q={}&format=json'.format(query))
-    json_object = respon.json()
-    result = json_object['Results'][0]['FirstURL']
-
-    return await pybot.say(result)
+async def search(*q):
+    query = {'q': ' '.join(q)}
+    respon = requests.get('http://duckduckgo.com/', params=query).url
+    return await pybot.say(respon)
 
 pybot.run(secrets.BOT_TOKEN)
