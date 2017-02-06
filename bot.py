@@ -1,9 +1,8 @@
 import discord
 from discord import User
 from discord.ext.commands import Bot
-import urllib as ul
-import json
 import secrets
+import requests
 
 pybot = Bot(command_prefix = "!")
 client = discord.Client
@@ -22,12 +21,11 @@ async def lenny():
 
 @pybot.command()
 async def search(query):
-    encoded = ul.parse.quote(query)
-    rawData = ul.request.urlopen("https://duckduckgo-duckduckgo-zero-click-info.p.mashape.com/?callback=process_duckduckgo&format=json&no_html=1&no_redirect=1&q={}&skip_disambig=1".format(encoded),
-    headers = secrets.headers).read()
-    jsonData = json.loads(rawData)
-    searchResults = jsonData["Results"]
-    print(searchResults)
-    return await pybot.say()
+
+    respon = requests.get('http://api.duckduckgo.com/?q={}&format=json'.format(query))
+    json_object = respon.json()
+    result = json_object['Results'][0]['FirstURL']
+
+    return await pybot.say(result)
 
 pybot.run(secrets.BOT_TOKEN)
