@@ -1,13 +1,20 @@
-import discord
-from discord.ext.commands import Bot
+import logging
 import secrets
 import requests
-import logging
+import discord
+from discord.ext.commands import Bot
+from discord import voice_client
 
 pybot = Bot(command_prefix = "!")
-client = discord.Client
 discord.opus.load_opus
 logging.basicConfig(level=logging.INFO)
+
+@pybot.event
+async def on_ready():
+    print('Logged in as')
+    print(pybot.user.name)
+    print(pybot.user.id)
+    print('------')
 
 @pybot.command()
 async def hello():
@@ -29,9 +36,13 @@ async def search(*q):
 
 @pybot.command(pass_context=True, aliases=['tm'])
 async def toMe(context):
+    #author of the message
     author = context.message.author
+    #id of the author of the message
     author_id = author.id
+    #currently connected server
     server = author.server
+    #list of channel classes
     channels = server.channels
     if discord.opus.is_loaded:
         for channel in channels:
